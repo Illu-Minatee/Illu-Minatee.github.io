@@ -39,7 +39,7 @@ public class Calcualtor {
         // Variables
         float number1, number2, result=0;
         String operator;
-        boolean divideBy0=false;
+        boolean valid=true;
 
         // User input
         Scanner scanner = new Scanner(System.in);
@@ -72,7 +72,7 @@ public class Calcualtor {
                 if (number2 == 0)
                 {
                     System.out.println("Can't divide by 0");
-                    divideBy0 = true;
+                    valid = false;
                 }
                 result = number1 / number2;
                 break;
@@ -80,7 +80,7 @@ public class Calcualtor {
             //Executed when all of the above is false
             default:
                 System.out.printf("Error - %s is not a valid operator.\n", operator);
-                divideBy0 = true; // so that it doesn't show calculations
+                valid = false; // so that it doesn't show calculations
         
         }
         
@@ -89,7 +89,7 @@ public class Calcualtor {
         
         //Output!!!!!!!!
         
-        if(!divideBy0)
+        if(valid)
         {
             System.out.println(CLEAR_TERMINAL + BANNER);
             System.out.printf("Clc: %s %s %s = %s\n", number1, operator, number2, result);

@@ -52,22 +52,22 @@ public class ICE_3 {
             
             }while(valid ==false);
             
-        //Calculations
-        distanceKM= seconds* SOUND_SPEED_KM;
-        distanceMiles= seconds* SOUND_SPEED_MILES;
+            //Calculations
+            distanceKM= seconds* SOUND_SPEED_KM;
+            distanceMiles= seconds* SOUND_SPEED_MILES;
         
-        //output
-        //In case the distance/seconds is 0.
-        if(seconds == 0)
-        {
+            //output
+            //In case the distance/seconds is 0.
+            if(seconds == 0)
+            {
             System.out.println("It struck You.");
         
-        }
-        else
-        {
+            }
+            else
+            {
             System.out.println("");
         
-        }
+            }
         
         
         
@@ -75,7 +75,7 @@ public class ICE_3 {
         
         
         
-        //Restart if the user enters 'r'
+            //Restart if the user enters 'r'
             System.out.print("\n\nEnter 'r' to restart: ");       
         }while(scanner.nextLine().equalsIgnoreCase("r"));
         scanner.close();
