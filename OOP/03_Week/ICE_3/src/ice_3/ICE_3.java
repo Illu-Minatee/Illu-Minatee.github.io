@@ -20,7 +20,9 @@ public class ICE_3 {
     static final String CLEAR_TERMINAL = "\033c";
     static final String SET_TITLE = "\033]0;%s\007";
     static final double SOUND_SPEED_MILES = 0.213 ;
-    static final double SOUND_SPEED_KM = 0.342      ;
+    static final double SOUND_SPEED_KM = 0.342;
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -31,50 +33,63 @@ public class ICE_3 {
         // User input
         Scanner scanner = new Scanner(System.in);
         double seconds = 0;
-        boolean valid;
+        boolean valid = false;
+        double distanceKM = 0;
+        double distanceMiles = 0;
         
         // Execute at least once
         do {
-            System.out.println("Count how many seconds it takes tto hear the thunder after seeing the lightning strike");
+            // Print the lightning strike from AsciiArt Class
+            System.out.println(CLEAR_TERMINAL + AsciiArts.LIGHTNING);
+            
+            // Input---------------------------------------------
+            System.out.println("Count how many seconds it takes tto hear the thunder after seeing the lightning strike!");
             
             
             do{
-            System.out.println("Enter in seconds: ");
+            System.out.print("Enter in seconds: ");
             //Validation
                 try
                 {
                 seconds = Double.parseDouble(scanner.nextLine());
+                valid = true;
+                
                 }
                 catch (Exception exception)
                 {
                 valid = false;
                 }
-            
-            }while(valid ==false);
+            // Error in case the number is not numeric or negative
+            if(valid == false || seconds < 0 )
+            {
+                System.out.println("Error - Invalid Number");
+                valid = false; // Not valid anymore!
+            }   
+                
+            }while(valid==false);
             
             //Calculations
             distanceKM= seconds* SOUND_SPEED_KM;
             distanceMiles= seconds* SOUND_SPEED_MILES;
         
-            //output
+            // Output
+            System.out.println(CLEAR_TERMINAL + AsciiArts.LIGHTNING);
+            
             //In case the distance/seconds is 0.
             if(seconds == 0)
             {
-            System.out.println("It struck You.");
+                System.out.println("It struck You.");
         
             }
+            // Otherwise shows the distance
             else
             {
-            System.out.println("");
-        
+                System.out.printf("The lightning struck is %.2f km / %.2f miles away from you!!!",
+                distanceKM, distanceMiles);
+                
             }
         
-        
-        
-        
-        
-        
-        
+            
             //Restart if the user enters 'r'
             System.out.print("\n\nEnter 'r' to restart: ");       
         }while(scanner.nextLine().equalsIgnoreCase("r"));
