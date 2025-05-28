@@ -19,6 +19,18 @@ public class MethodsOverload {
     // Constants
     static final String CLEAR_TERMINAL = "\033c";
     static final String SET_TITLE = "\033]0;%s\007";
+    static final String SET_COLOR = "\033[%sm";
+    /**
+     * Prints text ending with a new line
+     */
+    
+    static void print(String text)
+    {
+        System.out.println(text);
+    }
+    
+    
+    
     
     /**
      * @param args the command line arguments
