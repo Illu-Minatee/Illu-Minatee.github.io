@@ -10,5 +10,5 @@ package methodsoverload;
  * @author kasula
  */
 public enum Color {
-    BLACK, RED, GREEN
+    BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, GREY    
 }

@@ -25,17 +25,22 @@ public class ICE_4 {
      * = Nischal =
      * ===========
      */
-    static String topBottom="";
+    
     // User input
     static Scanner scanner = new Scanner(System.in);
+    
     static String formatBanner(String title)
     {
-    String middle = "= "+ title + " =";
-        for(int count=0;count<middle.length();count++ )
-        {
-        topBottom += "=";
-        }
-        return topBottom+"\n"+middle+"\n"+topBottom;
+        String middle = "= " + title + " =";
+        String topBottom="";
+        
+            //for count in range(len(middle)):
+            for(int count=0;count<middle.length();count++)
+            {
+                topBottom += "=";
+            }
+            //return the formatted banner
+            return topBottom+"\n"+middle+"\n"+topBottom;
     }
     
     
@@ -45,10 +50,17 @@ public class ICE_4 {
     static String input(String prompt)
     {
         System.out.print(prompt);
-        
+        return scanner.nextLine();
     
     }
     
+    /**
+     * Recreate print() from python
+     */
+    static void print(String text)
+    {
+        System.out.println(text);
+    }
     
     
     /**
@@ -65,11 +77,24 @@ public class ICE_4 {
         
         
         // Input screen
-        
-        
+        String adjective = input("Enter an adjective: ");
+        String adjective2 = input("Enter another adjective: ");
+        String comparative = input("Enter a comparative adjective: ");
+        String noun = input("Enter a singular noun: ");
+        String nonPlural = input("Enter a Plural noun: ");
+        String verb = input("Enter a verb in present tense: ");
+        String quote = input("Enter a famous quote: ");
         
         //Output screen
+        print(CLEAR_TERMINAL);
+        print(formatBanner("Programming is "+adjective+"!"));
         
+        print("When I code, I feel " + adjective2 + " and unstoppable.");
+        print("It's " + comparative + " than solving a " + noun + " puzzle.");
+        print("Every day, programmers face countless " + nonPlural + " and tackle them one step at a time.");
+        print("I like to " + verb + " because it makes my code smarter.");
+        print("Remember, \"" + quote + "\"—and never stop learning!");
+
         
         // Exit prompt - So the terminal doesn't close in our faces!
         System.out.print("Press [enter] to exit: ");
