@@ -19,6 +19,13 @@ h2 {
   font-weight: bold;
 }
 
+ul {
+  background-color: #eeeeee; /* Light grey background for contrast */
+  border: 5px solid purple;  /* Gives it a bold frame */
+  padding: 10px;             /* Adds spacing inside the border */
+}
+
+
 a:link,
 a:visited {
   color: #fb6542;
