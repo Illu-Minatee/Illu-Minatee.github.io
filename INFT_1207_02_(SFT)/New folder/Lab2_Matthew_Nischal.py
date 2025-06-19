@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
-# Program Name:     Lab2_Matthew.py
-# Program Author:   Matthew Flores 100624787
+# Program Name:     Lab2_Matthew_Nischal.py
+# Program Author:   Matthew Flores 100624787, Nischal Shrestha Kasula 100995481
 # Date Created:     6/4/25
 # Date Modified:    6/5/25
 #                   
