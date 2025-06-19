@@ -3,10 +3,10 @@ body {
 }
 
 h1 {
-  color: #375e97;
+  color: hotpink; /* Changed from #fb6542 to hotpink */
   font-size: 2em;
   font-family: Georgia, "Times New Roman", Times, serif;
-  border-bottom: 1px solid #375e97;
+  border-bottom: 10px dotted purple; /* Changed from #fb6542 to purple & 1px to 10px dotted*/
 }
 
 h2 {
