@@ -32,5 +32,6 @@ a:visited {
 }
 
 a:hover {
+  color: green; /* made link hover color green */
   text-decoration: none;
 }
