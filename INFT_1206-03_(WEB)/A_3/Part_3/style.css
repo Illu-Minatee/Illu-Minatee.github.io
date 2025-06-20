@@ -120,3 +120,13 @@ a[href^="http"]:after {
   margin-left: 4px;
 }
 
+/* Lists */
+ul, ol {
+  margin: 1.6rem 0;
+  line-height: 1.6;
+}
+
+li {
+  list-style-type: square;
+  margin-left: 2rem;
+}
