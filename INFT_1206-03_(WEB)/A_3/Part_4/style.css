@@ -28,7 +28,9 @@ body {
   nav {
     background-color: #000;
     padding: .5em;
-    
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
   
   nav ul {
