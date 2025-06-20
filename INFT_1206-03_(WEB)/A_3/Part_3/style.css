@@ -130,3 +130,15 @@ li {
   list-style-type: square;
   margin-left: 2rem;
 }
+
+/* Navigation */
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav li {
+  padding: 1rem;
+  font-size: 1.4rem;
+  border-bottom: 1px solid #ccc;
+}
