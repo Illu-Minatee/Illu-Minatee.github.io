@@ -43,3 +43,26 @@ header, footer {
 }
 
 /* WRITE YOUR CODE BELOW HERE */
+
+/* Font faces */
+@font-face {
+  font-family: "Merriweather";
+  src: url("Merriweather-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Roboto Slab";
+  src: url("RobotoSlab-Regular.woff2") format("woff2");
+}
+
+html {
+  font-size: 10px; /* Base font size for rem units */
+}
+
+body {
+  font-family: "Merriweather", serif;
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+  word-spacing: 1px;
+  color: #222;
+}
