@@ -54,6 +54,10 @@ body {
     padding: 0;
   }
 
+  /* Article image */
   .feature {
-      width: 200px;
+    width: 200px;
+    float: left;
+    margin: 0 1em 1em 0;
+
   }
