@@ -3,7 +3,7 @@ html {
 }
 
 /* Basic Box Style */
-.cool-box {
+.cool-box { /* class name: cool-box */
   width: 200px;
   height: 150px;
   margin: 100px auto; /* centers horizontally with top spacing */
@@ -14,14 +14,14 @@ html {
 
 font-size: 1.1rem; /* ~17.6px assuming 16px base. 1rem = 16px, so 1.1rem ≈ 17.6px */
 
-background-color: #4a90e2; /* base color: soft blue */
+background-color: #ff0000; /* base color: soft blue */
 color: #ffffff; /* contrasting text color */
 text-shadow: 1px 1px 2px black;
 
 border-radius: 8px; /* subtle rounding */
-border: 1px solid #3a78c2; /* slightly darker than base */
+border: 1px solid rgb(63, 21, 21); /* slightly darker than base */
 
-background-image: linear-gradient(
+background-image: linear-gradient( /* gradient from top left to bottom right */
 to bottom right,
 rgba(0, 0, 0, 0) 0%,
 rgba(0, 0, 0, 0.2) 30%,
@@ -29,7 +29,7 @@ rgba(0, 0, 0, 0.2) 100%
 );
 
 box-shadow:
-2px 2px 8px rgba(0, 0, 0, 0.3), /* outer shadow */
+2px 2px 8px rgba(0, 0, 0, 1), /* outer shadow */
 inset 2px 2px 5px rgba(255, 255, 255, 0.3), /* top-left inset */
 inset -2px -2px 5px rgba(0, 0, 0, 0.3); /* bottom-right inset */
 
