@@ -89,3 +89,22 @@ section > h2 + p {
   text-indent: 20px;
 }
 
+/* Link styles */
+a:link,
+a:visited {
+  color: #a66;
+  text-decoration: underline;
+}
+
+a:hover,
+a:focus {
+  color: #c33;
+  text-decoration: none;
+  outline: none;
+}
+
+a:active {
+  color: #000;
+  background-color: #ffc;
+  font-weight: bold;
+}
