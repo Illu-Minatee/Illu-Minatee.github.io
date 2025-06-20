@@ -108,3 +108,15 @@ a:active {
   background-color: #ffc;
   font-weight: bold;
 }
+
+/* External links */
+a[href^="http"]:after {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: url('external-link-52.png') no-repeat center;
+  background-size: contain;
+  margin-left: 4px;
+}
+
