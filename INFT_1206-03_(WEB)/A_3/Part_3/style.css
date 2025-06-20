@@ -83,3 +83,9 @@ h2 {
   margin-top: 2.4rem;
   margin-bottom: 1rem;
 }
+
+/* Selector which will target the first paragraph that comes immediately after an h2 */
+section > h2 + p {
+  text-indent: 20px;
+}
+
