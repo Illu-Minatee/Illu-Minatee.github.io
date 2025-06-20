@@ -12,6 +12,6 @@ html {
   justify-content: center;
   text-align: center;
 
-
+font-size: 1.1rem; /* ~17.6px assuming 16px base. 1rem = 16px, so 1.1rem ≈ 17.6px */
 
 }  
