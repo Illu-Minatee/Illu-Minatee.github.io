@@ -22,6 +22,9 @@ body {
     display: flex;  /* replaced 'inline-block' with 'flex' for better layout control */
     gap: 20px; /* adds space between items */
     flex-wrap: wrap; /* allows items to wrap to the next line if necessary */
+    margin: 0 auto;
+    padding: 0 20px;
+    max-width: 980px;
 
   }
   
@@ -36,40 +39,41 @@ aside { /* Sidebar Styles */
   min-width: 220px;
 }
 
-  /* Navigation Styles */
-  nav {
+    /* Navigation Styles */
+nav {
     background-color: #000;
     padding: .5em;
     position: sticky;
     top: 0;
     z-index: 100;
-  }
-  
-  nav ul {
+    }
+
+nav ul {
     margin: 0;
     padding: 0;
     list-style: none;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-  }
-  
-  nav a {
+    }
+
+nav a {
     color: #fff;
     text-decoration: none;
     padding: .5em 1em;
-  }
-  
-  .photos {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+    }
 
-  /* Article image */
-  .feature {
+.photos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+
+    }
+
+    /* Article image */
+.feature {
     width: 200px;
     float: left;
     margin: 0 1em 1em 0;
 
-  }
+    }
