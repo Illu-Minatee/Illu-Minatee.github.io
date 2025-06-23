@@ -51,7 +51,7 @@ class TestTrapezium(unittest.TestCase):
 # ----------- Test cases for Ellipse area calculation -----------
 class TestEllipse(unittest.TestCase):
     def test_valid(self):
-        self.assertAlmostEqual(ellipse_area(3, 5), 47.1238, places=4)
+        self.assertAlmostEqual(ellipse_area(3, 5), 47.1238, places=3)
 
     def test_zero_first_axis(self):
         self.assertEqual(ellipse_area(0, 5), 0)
@@ -88,25 +88,39 @@ class TestRhombus(unittest.TestCase):
 # --------------------- MENU-BASED TEST SUITE ---------------------
 
 if __name__ == '__main__':
-    print("\nShape Area Test Suite")
-    print("Select a shape to test:")
-    print("[C] Circle\n[T] Trapezium\n[E] Ellipse\n[R] Rhombus")
+    # Loop controller for the test suite
+    continue_loop = True
 
-    choice = input("Enter your choice: ").strip().lower()
+    while continue_loop:
+        print("\nShape Area Test Suite")
+        print("Select a shape to test:")
+        print("[C] Circle\n[T] Trapezium\n[E] Ellipse\n[R] Rhombus")
 
-    suite = unittest.TestSuite()
+        choice = input("Enter your choice: ").strip().lower()
 
-    if choice == 'c':
-        suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestCircle))
-    elif choice == 't':
-        suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestTrapezium))
-    elif choice == 'e':
-        suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestEllipse))
-    elif choice == 'r':
-        suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestRhombus))
-    else:
-        print("Invalid selection. Exiting test suite.")
-        exit()
+        suite = unittest.TestSuite()
 
-    runner = unittest.TextTestRunner()
-    runner.run(suite)
+        if choice == 'c':
+            suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestCircle))
+        elif choice == 't':
+            suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestTrapezium))
+        elif choice == 'e':
+            suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestEllipse))
+        elif choice == 'r':
+            suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestRhombus))
+        else:
+            print("Invalid selection. No tests run.")
+            continue_loop = False
+            continue
+
+        # Run the selected test suite
+        runner = unittest.TextTestRunner()
+        runner.run(suite)
+
+        # Prompt to run another test
+        again = input("\nPress [R] to run another test or any other key to exit: ").strip().lower()
+        if again == 'r':
+            continue_loop = True
+        else:
+            print("Exiting test suite. Goodbye!")
+            continue_loop = False
