@@ -1,5 +1,5 @@
 /*
-Name: Nischal
+Name: Nischal Shrestha Kasula
 File: main.js
 Date: 17 July 2025
 JavaScript for generating a silly story with random elements and user customization.
@@ -22,3 +22,18 @@ const insertX = ["Willy the Goblin", "Big Daddy", "Father Christmas"];
 const insertY = ["the soup kitchen", "Disneyland", "the White House"];
 const insertZ = ["spontaneously combusted", "melted into a puddle on the sidewalk", "turned into a slug and crawled away"];
 
+// 3. EVENT LISTENER AND FUNCTION
+randomize.addEventListener('click', result);
+
+function result() {
+  let newStory = storyText;
+
+  const xItem = randomValueFromArray(insertX);
+  const yItem = randomValueFromArray(insertY);
+  const zItem = randomValueFromArray(insertZ);
+
+  newStory = newStory.replaceAll(':insertx:', xItem);
+  newStory = newStory.replace(':inserty:', yItem);
+  newStory = newStory.replace(':insertz:', zItem);
+
+}
