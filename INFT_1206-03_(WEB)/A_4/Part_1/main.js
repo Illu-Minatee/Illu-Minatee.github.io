@@ -36,4 +36,18 @@ function result() {
   newStory = newStory.replace(':inserty:', yItem);
   newStory = newStory.replace(':insertz:', zItem);
 
+  if(customName.value !== '') {
+    const name = customName.value;
+    newStory = newStory.replace('Bob', name);
+  }
+
+  if(document.getElementById("uk").checked) {
+    const weight = Math.round(300 * 0.071429) + ' stone'; // Convert pounds to stone
+    const temperature = Math.round((94 - 32) * 5 / 9) + ' centigrade'; // Convert Fahrenheit to Celsius
+
+    newStory = newStory.replace('300 pounds', weight);
+    newStory = newStory.replace('94 fahrenheit', temperature);
+  }
+
+
 }
