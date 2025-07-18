@@ -16,6 +16,13 @@ const overlay = document.querySelector('.overlay');
 const imageList = ['pic1.jpg', 'pic2.jpg', 'pic3.jpg', 'pic4.jpg', 'pic5.jpg'];
 
 /* Declaring the alternative text for each image file */
+const altText = {
+    'pic1.jpg': 'Closeup of a human eye',
+    'pic2.jpg': 'Rock sculpture of a man’s face',
+    'pic3.jpg': 'Purple and white flowers',
+    'pic4.jpg': 'Ancient painting of a horse',
+    'pic5.jpg': 'Butterfly on a leaf'
+  };
 
 /* Looping through images */
 
