@@ -1,3 +1,9 @@
+/*
+Name: Nischal
+File: main.js
+Date: 17 July 2025
+JavaScript for interactive image gallery with thumbnails and darken effect.
+*/
 const displayedImage = document.querySelector('.displayed-img');
 const thumbBar = document.querySelector('.thumb-bar');
 
