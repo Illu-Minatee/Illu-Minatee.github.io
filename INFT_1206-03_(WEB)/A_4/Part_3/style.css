@@ -1,16 +1,20 @@
 /*
-Name: Nischal
+Name: Nischal Shrestha kasula
 File: style.css
 Date: 18 July 2025
 Flexbox layout and visual design for creative resume.
 */
 
 /* Profile section - image and name on same line */
+/* Source: https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/scale
+https://youtu.be/po1-m0vdy_w?si=PEoWQVpoDgezDzLq
+   Description: Enlarges icons on hover using CSS transform and transition.
+   This adds interactivity and visual feedback to contact links. */
 body {
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
   padding: 20px;
-  background: #ffa9a9;
+  background: #fd9292be;
   color: #333;
 }
 
@@ -29,12 +33,12 @@ header.profile {
 
 header.profile h1 {
   color: #7ffe00b8;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  text-shadow: 4px 4px 8px rgba(0,0,0,0.9), 2px 2px 4px rgba(0,0,0,0.8);
 }
 
 header.profile p {
   color: #00ffff;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+  text-shadow: 3px 3px 6px rgba(0,0,0,0.9), 1px 1px 3px rgba(0,0,0,0.8);
 }
 
 .contact-icons {
@@ -64,7 +68,7 @@ section {
   background: rgb(169, 232, 207);
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 0 5px rgba(25, 0, 255, 0.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 footer {
