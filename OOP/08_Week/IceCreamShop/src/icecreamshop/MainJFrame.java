@@ -4,6 +4,8 @@
  */
 package icecreamshop;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -13,24 +15,35 @@ import javax.swing.table.DefaultTableModel;
 public class MainJFrame extends javax.swing.JFrame 
 {
 
-    // Array of IceCream objects
-    // Each index is an IcrCream!
-    IceCream[] flavours = {
-        new IceCream("Choccy", 2.99), // Index 0
-        new IceCream("Double Chocole", 3.99), // Index 1
-        new IceCream("Tiger Tail" , 3.99), // Index 2
-        new IceCream("Moose Tracks", 1.99), // Index 3
-        new IceCream("Flappy Wings", 4.99) // Index 4
-    } ;
+//    // Array of IceCream objects
+//    // Each index is an IcrCream!
+//    IceCream[] flavours = {
+//        new IceCream("Choccy", 2.99), // Index 0
+//        new IceCream("Double Chocole", 3.99), // Index 1
+//        new IceCream("Tiger Tail" , 3.99), // Index 2
+//        new IceCream("Moose Tracks", 1.99), // Index 3
+//        new IceCream("Flappy Wings", 4.99) // Index 4
+//    } ;
+//    
+    
+    
+    // ArrayList of IceCream
+    ArrayList<IceCream> flavours = new ArrayList<IceCream>();
+    
     
     /**
      * Creates new form MainJFrame
      */
     public MainJFrame() 
     {
+        // Add 5 flavours
+        flavours.add(new IceCream("Choccy", 2.99));
+        flavours.add(new IceCream("Double Chocole", 3.99));
+        flavours.add(new IceCream("Tiger Tail" , 3.99));
+        flavours.add(new IceCream("Moose Tracks", 1.99));
+        flavours.add(new IceCream("Flappy Wings", 4.99));
+        
         initComponents();
-        // Display the flavours available
-        flavoursLabel.setText("We currently have "+flavours.length+ " falvours!");
         updateTable();
     }
     
@@ -39,13 +52,23 @@ public class MainJFrame extends javax.swing.JFrame
      */
     void updateTable()
     {
+        // Display the flavours available
+        flavoursLabel.setText("We currently have "+flavours.size() 
+                + (flavours.size() == 1 ? " falvour!" : " flavours!")); // Ternary Operator
+        
         DefaultTableModel model = (DefaultTableModel)flavoursTable.getModel();
         
+        // Reset the table
+        model.setNumRows(0);
+        
         // Go thorough the flavours array and add each flavour to the table
-        for (int index = 0; index <flavours.length; index++) {
+        for (int index = 0; index <flavours.size(); index++) {
             
         model.addRow(new Object[] 
-        {index+1, flavours[index].getName(), "$"+flavours[index].getPrice()});
+        {index+1, 
+            flavours.get(index).getName(), 
+            String.format("$"+flavours.get(index).getPrice())
+            });
         }
     }
 
@@ -58,11 +81,107 @@ public class MainJFrame extends javax.swing.JFrame
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        addFlavourDialogue = new javax.swing.JDialog();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        newFlavourName = new javax.swing.JTextField();
+        priceSpinner = new javax.swing.JSpinner();
+        confirmButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         flavoursLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         flavoursTable = new javax.swing.JTable();
+        removeButton = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
+
+        addFlavourDialogue.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addFlavourDialogue.setTitle("AddFlavour");
+        addFlavourDialogue.setModal(true);
+        addFlavourDialogue.setResizable(false);
+
+        jPanel2.setBackground(new java.awt.Color(255, 204, 204));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel2.setText("Flavour Price: ");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel3.setText("Flavour Name: ");
+
+        newFlavourName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        priceSpinner.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        priceSpinner.setModel(new javax.swing.SpinnerNumberModel(1.0d, 0.0d, null, 0.5d));
+        priceSpinner.setEditor(new javax.swing.JSpinner.NumberEditor(priceSpinner, "$0.00"));
+
+        confirmButton.setBackground(new java.awt.Color(255, 153, 153));
+        confirmButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        confirmButton.setText("Confirm");
+        confirmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmButtonActionPerformed(evt);
+            }
+        });
+
+        cancelButton.setBackground(new java.awt.Color(204, 204, 255));
+        cancelButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(newFlavourName)
+                    .addComponent(priceSpinner)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(cancelButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                        .addComponent(confirmButton))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(newFlavourName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(priceSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(confirmButton)
+                    .addComponent(cancelButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout addFlavourDialogueLayout = new javax.swing.GroupLayout(addFlavourDialogue.getContentPane());
+        addFlavourDialogue.getContentPane().setLayout(addFlavourDialogueLayout);
+        addFlavourDialogueLayout.setHorizontalGroup(
+            addFlavourDialogueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        addFlavourDialogueLayout.setVerticalGroup(
+            addFlavourDialogueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ice Creme Shope - Nischal");
@@ -95,9 +214,34 @@ public class MainJFrame extends javax.swing.JFrame
                 return canEdit [columnIndex];
             }
         });
+        flavoursTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         flavoursTable.getTableHeader().setResizingAllowed(false);
         flavoursTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(flavoursTable);
+        if (flavoursTable.getColumnModel().getColumnCount() > 0) {
+            flavoursTable.getColumnModel().getColumn(0).setResizable(false);
+            flavoursTable.getColumnModel().getColumn(1).setResizable(false);
+            flavoursTable.getColumnModel().getColumn(1).setPreferredWidth(270);
+            flavoursTable.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        removeButton.setBackground(new java.awt.Color(0, 255, 204));
+        removeButton.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        removeButton.setText("Remove Flavour");
+        removeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeButtonActionPerformed(evt);
+            }
+        });
+
+        addButton.setBackground(new java.awt.Color(204, 204, 255));
+        addButton.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        addButton.setText("Add Flavour");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -106,11 +250,16 @@ public class MainJFrame extends javax.swing.JFrame
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(flavoursLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                    .addComponent(flavoursLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(removeButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(addButton)
+                                .addGap(13, 13, 13)))
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
@@ -121,7 +270,11 @@ public class MainJFrame extends javax.swing.JFrame
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(flavoursLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addButton)
+                    .addComponent(removeButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -133,12 +286,87 @@ public class MainJFrame extends javax.swing.JFrame
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    
+    /**
+     * Show a popup in case there is nothing selected
+     * If something is selected then remove it.
+     * @param evt 
+     */
+    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
+        
+        int selectedIndex = flavoursTable.getSelectedRow();
+        
+        // If nothing selected
+        if(flavoursTable.getSelectedRow() == -1)
+            JOptionPane.showMessageDialog(rootPane, "You must select something.");
+        
+        // Remove the selected item
+        else
+        {
+            flavours.remove(selectedIndex);
+            updateTable();
+        }
+    }//GEN-LAST:event_removeButtonActionPerformed
+
+    /**
+     * Open the Add flavour dialogue (aka Modal Window)
+     * @param evt 
+     */
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // Place the modal window on top of the main window
+        addFlavourDialogue.setLocationRelativeTo(this); 
+        addFlavourDialogue.pack(); //Resize the modal window
+        addFlavourDialogue.setVisible(true);
+        
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    /**
+     * Hide the modal window and give focus to main window 
+     * @param evt 
+     */
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        addFlavourDialogue.setVisible(false);
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    /**
+     * If flavour has no name then show warning 
+     * else add the new flavour to the ArrayaList
+     * Upadate the table 
+     * @param evt 
+     */
+    private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
+        
+        String name = newFlavourName.getText();
+        double price = (double)priceSpinner.getValue(); // Convert to double
+        
+        if(name.isBlank())
+        {
+            JOptionPane.showMessageDialog(rootPane, "New Flavour needs a name!!");
+        }
+        
+        else
+        {
+            // Has a name, then add it
+            IceCream newFlavour = new IceCream(name, price);
+            flavours.add(newFlavour);
+            updateTable();
+            addFlavourDialogue.setVisible(false); // Hide the window
+            JOptionPane.showMessageDialog(rootPane, "Added the flavour");
+            
+            // Reset the GUI
+            newFlavourName.setText("");
+            priceSpinner.setValue(1.00);
+            
+        }
+        
+    }//GEN-LAST:event_confirmButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,10 +404,20 @@ public class MainJFrame extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
+    private javax.swing.JDialog addFlavourDialogue;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JButton confirmButton;
     private javax.swing.JLabel flavoursLabel;
     private javax.swing.JTable flavoursTable;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField newFlavourName;
+    private javax.swing.JSpinner priceSpinner;
+    private javax.swing.JButton removeButton;
     // End of variables declaration//GEN-END:variables
 }
