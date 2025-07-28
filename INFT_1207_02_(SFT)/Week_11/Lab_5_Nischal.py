@@ -56,7 +56,7 @@ class ECommerceShoppingTest(unittest.TestCase):
         
         # Hover over Women menu to reveal submenu
         actions.move_to_element(women_menu).perform()
-        time.sleep(2)
+        time.sleep(5)
         
         # Wait for Tops menu to be visible and clickable
         tops_menu = WebDriverWait(driver, 10).until(
@@ -65,7 +65,7 @@ class ECommerceShoppingTest(unittest.TestCase):
         
         # Hover over Tops to reveal submenu
         actions.move_to_element(tops_menu).perform()
-        time.sleep(2)
+        time.sleep(5)
         
         # Wait for Hoodies & Sweatshirts link and click it
         hoodies_link = WebDriverWait(driver, 10).until(
