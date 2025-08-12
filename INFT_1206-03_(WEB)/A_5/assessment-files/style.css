@@ -52,6 +52,7 @@ p, li, table {
 /* || header layout */
 
 article, footer, .secondary {
+  background-color: white;
   padding: 10px 30px;
 }
 
