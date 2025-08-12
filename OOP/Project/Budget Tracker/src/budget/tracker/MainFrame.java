@@ -4,17 +4,37 @@
  */
 package budget.tracker;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author kasul
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    
+    // This ArrayList will hold all of our transaction objects in memory.
+    ArrayList<transaction> transactions = new ArrayList<>();
+    // This variable will store the index of the transaction being edited.
+    // -1 will mean we are NOT editing, we are adding a new one.
+    private int currentlyEditingIndex = -1;
+    
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
+        
+        // Add some sample transactions to start
+        transactions.add(new transaction("Paycheck", 2000.00, LocalDate.now(), "Income"));
+        transactions.add(new transaction("Groceries", -75.50, LocalDate.now().minusDays(1), "Food"));
+        transactions.add(new transaction("Gas", -40.00, LocalDate.now().minusDays(2), "Transportation"));
+
+        // Call our master update method for the first time to display the data.
+        updateEverything();
     }
 
     /**
@@ -64,7 +84,8 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel2.setText("Amount:");
 
         amountSpinner.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        amountSpinner.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, null, 0.01d));
+        amountSpinner.setModel(new javax.swing.SpinnerNumberModel(0.0d, null, null, 0.01d));
+        amountSpinner.setEditor(new javax.swing.JSpinner.NumberEditor(amountSpinner, "$00.00"));
 
         jLabel3.setFont(new java.awt.Font("Segoe Print", 1, 18)); // NOI18N
         jLabel3.setText("Category:");
@@ -79,9 +100,19 @@ public class MainFrame extends javax.swing.JFrame {
 
         okButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         okButton.setText("OK");
+        okButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okButtonActionPerformed(evt);
+            }
+        });
 
         cancelButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout dialogPanelLayout = new javax.swing.GroupLayout(dialogPanel);
         dialogPanel.setLayout(dialogPanelLayout);
@@ -199,6 +230,11 @@ public class MainFrame extends javax.swing.JFrame {
         addTransactionButton.setBackground(new java.awt.Color(204, 204, 255));
         addTransactionButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         addTransactionButton.setText("Add Transaction");
+        addTransactionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addTransactionButtonActionPerformed(evt);
+            }
+        });
 
         editTransactionButton.setBackground(new java.awt.Color(204, 204, 255));
         editTransactionButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -227,18 +263,19 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tableScrollPane)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(incomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                        .addComponent(expensesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(incomeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(expensesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(balanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(balanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGap(23, 23, 23)
                         .addComponent(addTransactionButton)
-                        .addGap(80, 80, 80)
+                        .addGap(163, 163, 163)
                         .addComponent(editTransactionButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(deleteTransactionButton)
-                        .addGap(80, 80, 80)))
+                        .addGap(28, 28, 28)))
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
@@ -262,6 +299,7 @@ public class MainFrame extends javax.swing.JFrame {
         fileMenu.setText("File");
 
         saveMenuItem.setText("Save");
+        saveMenuItem.setEnabled(false);
         saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveMenuItemActionPerformed(evt);
@@ -270,6 +308,7 @@ public class MainFrame extends javax.swing.JFrame {
         fileMenu.add(saveMenuItem);
 
         loadMenuItem.setText("Load");
+        loadMenuItem.setEnabled(false);
         fileMenu.add(loadMenuItem);
 
         jMenuBar1.add(fileMenu);
@@ -293,15 +332,178 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void editTransactionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editTransactionButtonActionPerformed
         // TODO add your handling code here:
+        
+        // --- Prepare dialog for EDITING an existing transaction ---
+
+        // 1. Get the selected row index.
+        int selectedIndex = transactionTable.getSelectedRow();
+
+        // 2. Check if a row is actually selected.
+        if (selectedIndex == -1) {
+            // If not, show a warning and stop.
+            JOptionPane.showMessageDialog(this, "Please select a transaction to edit.", "No Selection", JOptionPane.WARNING_MESSAGE);
+            return; // Stop the method here
+        }
+
+        // 3. Get the actual transaction object from our list.
+        transaction selectedTransaction = transactions.get(selectedIndex);
+
+        // 4. Change the dialog's title to "Edit" mode.
+        transactionDialog.setTitle("Edit Transaction");
+
+        // 5. Populate the dialog's fields with the data from the selected transaction.
+        descriptionField.setText(selectedTransaction.getDescription());
+        amountSpinner.setValue(selectedTransaction.getAmount());
+        categoryComboBox.setSelectedItem(selectedTransaction.getCategory());
+        dateField.setText(selectedTransaction.getDate().toString());
+
+        // 6. Make the dialog visible.
+        transactionDialog.pack();
+        transactionDialog.setLocationRelativeTo(this);
+        
+        // Store the index of the item we are about to edit.
+        // The 'selectedIndex' variable is already available from the code above.
+        currentlyEditingIndex = selectedIndex;
+        transactionDialog.setVisible(true);
     }//GEN-LAST:event_editTransactionButtonActionPerformed
 
     private void deleteTransactionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTransactionButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteTransactionButtonActionPerformed
+        
+        // 1. Get the index of the row that the user has selected.
+        // If no row is selected, this will be -1.
+        int selectedIndex = transactionTable.getSelectedRow();
 
+        // 2. Check if the user has selected a row.
+        if (selectedIndex == -1) {
+            // If they haven't, show a warning message and do nothing else.
+            JOptionPane.showMessageDialog(this, "Please select a transaction to delete.", "No Selection", JOptionPane.WARNING_MESSAGE);
+        } else {
+            // 3. If a row is selected, ask for confirmation before deleting.
+            int choice = JOptionPane.showConfirmDialog(
+                this, // Parent component
+                "Are you sure you want to delete this transaction?", // Message
+                "Confirm Deletion", // Title
+                JOptionPane.YES_NO_OPTION, // Button options
+                JOptionPane.QUESTION_MESSAGE // Icon
+            );
+
+            // 4. Check the user's choice.
+            if (choice == JOptionPane.YES_OPTION) {
+                // If they clicked "Yes", remove the transaction from the ArrayList.
+                transactions.remove(selectedIndex);
+
+                // 5. IMPORTANT: Call our master update method to refresh everything.
+                updateEverything();
+            }
+            // If they clicked "No", do nothing.
+        }
+    }//GEN-LAST:event_deleteTransactionButtonActionPerformed
+    
+    // Greyed out save and load button
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_saveMenuItemActionPerformed
+
+    private void addTransactionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTransactionButtonActionPerformed
+        // TODO add your handling code here:
+        
+        // --- Prepare dialog for ADDING a new transaction ---
+
+        // 1. Change the dialog's title to be specific for "Add" mode.
+        transactionDialog.setTitle("Add New Transaction");
+
+        // 2. Clear out any old data from a previous use.
+        descriptionField.setText("");
+        amountSpinner.setValue(0.0);
+        categoryComboBox.setSelectedIndex(0); // Set to the first item
+        dateField.setText(LocalDate.now().toString()); // Set date to today by default
+
+        // 3. Make the dialog visible.
+        transactionDialog.pack(); // Resize to fit contents
+        transactionDialog.setLocationRelativeTo(this); // Center on the main window
+        
+        // Set the editing index to -1 to signal that we are ADDING a new item.
+        currentlyEditingIndex = -1;
+        transactionDialog.setVisible(true);
+    }//GEN-LAST:event_addTransactionButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        // TODO add your handling code here:
+        
+        transactionDialog.setVisible(false); // This simply hides the dialog box
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        // TODO add your handling code here:
+        
+         // --- 1. Get and Validate Description ---
+        String description = descriptionField.getText().trim();
+        if (description.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Description cannot be empty.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return; // Stop
+        }
+
+        // --- 2. Get and Validate Amount from Spinner ---
+        double amount; // Declare amount variable
+        try {
+            // This forces the spinner to process typed text. Throws an error if invalid.
+            amountSpinner.commitEdit(); 
+            amount = (double) amountSpinner.getValue();
+        } catch (java.text.ParseException e) {
+            // This runs if the user typed "abc" or other invalid text.
+            JOptionPane.showMessageDialog(this, "Invalid number format in Amount field.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return; // Stop
+        }
+
+        // --- 3. Get Category and Perform Logic Validation ---
+        String category = categoryComboBox.getSelectedItem().toString();
+
+        // Check for negative income
+        if (category.equals("Income") && amount < 0) {
+            JOptionPane.showMessageDialog(this, "Income amount cannot be negative.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return; // Stop
+        }
+        
+        // --- ADDED THIS NEW CHECK ---
+        if (amount == 0) {
+            JOptionPane.showMessageDialog(this, "Transaction amount cannot be zero.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return; // Stop
+        }
+
+        // Auto-correct amount for expenses
+        if (!category.equals("Income") && amount > 0) {
+            amount = amount * -1;
+        }
+
+        // --- 4. Get and Validate Date ---
+        LocalDate date;
+        try {
+            date = LocalDate.parse(dateField.getText());
+        } catch (java.time.format.DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "Invalid date format. Please use YYYY-MM-DD.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return; // Stop
+        }
+
+        // --- 5. If all validation passes, proceed with Add or Edit ---
+        if (currentlyEditingIndex == -1) {
+            // ADD MODE
+            transaction newTransaction = new transaction(description, amount, date, category);
+            transactions.add(newTransaction);
+        } else {
+            // EDIT MODE
+            transaction transactionToEdit = transactions.get(currentlyEditingIndex);
+            transactionToEdit.setDescription(description);
+            transactionToEdit.setAmount(amount);
+            transactionToEdit.setCategory(category);
+            transactionToEdit.setDate(date);
+        }
+
+        // --- 6. Final step: update screen and close dialog ---
+        updateEverything();
+        transactionDialog.setVisible(false);
+
+    }//GEN-LAST:event_okButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -338,6 +540,46 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
 
+    /**
+ * This is the master update method. It recalculates all summary totals
+ * and refreshes the JTable to match the current data in the ArrayList.
+ */
+public void updateEverything() {
+    // --- 1. Calculate Summaries ---
+    double totalIncome = 0;
+    double totalExpenses = 0;
+    
+    for (transaction t : transactions) {
+        if (t.getAmount() >= 0) { // Positive amounts are income
+            totalIncome += t.getAmount();
+        } else { // Negative amounts are expenses
+            totalExpenses += t.getAmount(); // totalExpenses will be negative
+        }
+    }
+    double balance = totalIncome + totalExpenses; // Add a negative to subtract
+
+    // --- 2. Update GUI Labels ---
+    // String.format is used to ensure the amounts are shown as currency (2 decimal places)
+    incomeLabel.setText(String.format("Total Income: $%.2f", totalIncome));
+    // Use Math.abs() to show the expense as a positive number (e.g., -$50 becomes $50.00)
+    expensesLabel.setText(String.format("Total Expenses: $%.2f", Math.abs(totalExpenses)));
+    balanceLabel.setText(String.format("Current Balance: $%.2f", balance));
+
+    // --- 3. Update the JTable ---
+    DefaultTableModel model = (DefaultTableModel) transactionTable.getModel();
+    model.setRowCount(0); // Clear the table completely
+
+    for (transaction t : transactions) {
+        Object[] rowData = {
+            t.getDate().toString(), // Convert LocalDate to String
+            t.getDescription(),
+            t.getCategory(),
+            String.format("$%.2f", t.getAmount()) // Format amount as currency
+        };
+        model.addRow(rowData);
+    }
+}
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addTransactionButton;
     private javax.swing.JSpinner amountSpinner;
@@ -357,7 +599,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem loadMenuItem;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JButton okButton;
